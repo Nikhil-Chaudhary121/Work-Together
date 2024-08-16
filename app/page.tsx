@@ -1,113 +1,74 @@
-import Image from "next/image";
+import GroupDataCard from "@/components/GroupDataCard";
+import GroupNavBtn from "@/components/GroupNavBtn";
+import { groupData } from "@/contains";
+import { LuCalendarRange } from "react-icons/lu";
+import { FaUsers } from "react-icons/fa6";
+import { MdPendingActions } from "react-icons/md";
+import { CgOptions } from "react-icons/cg";
 
 export default function Home() {
+  const today = new Date().toLocaleDateString().replace(/\//g, "-");
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <main className="flex pt-2 pb-12 lg:px-6 px-4 h-full max-h-full overflow-hidden">
+      <section className="bg-[#FEF8F8] flex-1 flex flex-col md:gap-10 gap-4 md:p-10 sm:p-6 p-3 rounded-2xl">
+        <h1 className="font-[Poppins] text-[1.6rem] font-medium">All Groups</h1>
+        <div className="font-[Poppins] flex overflow-hidden flex-col gap-2 w-full">
+          <div className="flex items-center justify-between my-2 gap-4">
+            <div className="flex items-center gap-4">
+              <GroupNavBtn text="Total Groups" isActive={true} />
+              <GroupNavBtn text="Your Groups" isActive={false} />
+              <GroupNavBtn text="Joined Groups" isActive={false} />
+            </div>
+            <div className=" hidden md:flex items-center gap-2 p-4 border-2 rounded-xl w-fit">
+              <LuCalendarRange className="md:text-4xl text-2xl" />
+              {today}
+            </div>
+          </div>
+
+          <div className="border shadow rounded-lg py-3 px-8 hover:bg-[#ffffffb3] duration-300 bg-white">
+            <div
+              className="grid md:grid-cols-[0.4fr,1fr,0.7fr,0.2fr,0.2fr,0.1fr] 
+            sm:grid-cols-[0.2fr,1fr,auto,auto,auto]
+            grid-cols-[1fr,auto,auto,auto] sm:gap-8 gap-4 items-center  py-2"
+            >
+              <h1 className="font-semibold text-left sm:inline hidden">No.</h1>
+              <h1 className="font-semibold text-start">Name</h1>
+              <h1 className="font-semibold text-start md:inline hidden">
+                Owner
+              </h1>
+
+              <h1 className="font-semibold text-start ">
+                <span className=" hidden md:inline">Tasks</span>
+                <MdPendingActions className=" md:hidden" />
+              </h1>
+              <h1 className="font-semibold text-start ">
+                <span className=" hidden md:inline">Members</span>
+                <FaUsers className=" md:hidden" />
+              </h1>
+              <h1 className="font-semibold text-right ">
+                <span className=" hidden md:inline">Action</span>
+                <CgOptions className=" md:hidden" />
+              </h1>
+            </div>
+          </div>
+
+          <div className="flex flex-col overflow-y-auto gap-1 scroll-smooth hide-scrollbar h-full">
+            {/* Set the height and enable overflow-y */}
+            {groupData.map((project) => (
+              <GroupDataCard
+                key={project.no}
+                no={project.no}
+                name={project.name}
+                pic={project.pic}
+                owner={project.owner}
+                totalTasks={project.totalTasks}
+                totalMembers={project.totalMembers}
+              />
+            ))}
+          </div>
         </div>
-      </div>
-
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+      </section>
     </main>
   );
 }
